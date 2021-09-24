@@ -1,0 +1,70 @@
+extends nav
+
+block main
+  script(type="text/javascript").
+    var ws = new WebSocket(`wss://!{hostname}/wss`);
+    ws.onopen = function () {
+        ws.send('!{bin}')
+    }
+
+    ws.onmessage = function (serverMsg) {
+        console.log(serverMsg.data);
+        if (serverMsg.data == 'refresh') {
+          location.reload()
+        }
+    }
+
+  if requests.length !== 0
+    ul
+      each request, idx in requests
+        - const msDiff = Date.now() - request._id.getTimestamp()
+        - const secsDiff = Math.floor(msDiff / 1000)
+        - const minsDiff = Math.floor(secsDiff / 60)
+        - const hoursDiff= Math.floor(minsDiff / 60)
+        - const daysDiff = Math.floor(hoursDiff / 24)
+        - let timeStr = `${secsDiff} secs`
+        - if (minsDiff >= 1) timeStr = `${minsDiff} mins`
+        - if (hoursDiff >= 1) timeStr = `${hoursDiff} hours`
+        - if (daysDiff >= 1) timeStr = `${daysDiff} days`
+        li.m-6.grid.grid-cols-3.border-2.border-gray-300
+            div.p-2.bg-gray-100(style="white-space:pre;")
+              |  https://#{request.headers.host}
+              |  #[b #{request.requestType}] #{request.originalUrl}
+            div.p-2.bg-gray-100 #{request.headers['content-type']}
+            div.p-2.text-right.bg-gray-100(style='white-space:pre;')
+              | #{timeStr} ago
+              | #{request.senderIP}
+            div.p-2(style='white-space:pre;')
+              span.font-bold.text-gray-500 FORM/POST PARAMETERS
+              | 
+              ul
+                each value, key in request.body
+                  li.whitespace-normal.break-all #[b #{key}]: #{value}
+                else 
+                  li None
+            div.p-2.col-span-2(style='white-space:pre;')
+              span.font-bold.text-gray-500 HEADERS 
+              ul
+                each value, key in request.headers
+                  li.whitespace-normal.break-all #[b #{key}]: #{value}
+                else 
+                  li None
+            div.p-2.col-span-3(style='white-space:pre;')
+              span.font-bold.text-gray-500 RAW BODY  
+              if Object.entries(request.body).length !== 0
+                .whitespace-normal.break-all
+                  |
+                  |#{JSON.stringify(request.body)} 
+              else
+                | 
+                | None
+  else
+    div
+      .max-w-md.py-4.px-8.bg-white.shadow-lg.rounded-lg.my-20
+        div
+          h2.text-gray-800.text-3xl.font-semibold Bin #{bin} is Empty
+          p.mt-4.text-gray-600
+            | No HTTP requests have been recieved by bin #{bin}. 
+            | A request of any type (#[i GET], #[i DELETE], etc) can be added to this bin by making a request to the following address.
+        .flex.justify-center.mt-4.mb-3
+          a.text-xl.font-medium.text-blue-900(href=`/bin/${bin}`) #{hostname}/bin/#{bin}

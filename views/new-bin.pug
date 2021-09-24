@@ -1,0 +1,111 @@
+extends nav 
+
+block main
+  - const binAddr = `${hostname}/bin/${binId}`
+  - const viewAddr = `${hostname}/view-bin/${binId}`
+  .m-11.grid.grid-cols-1.gap-1.justify-items-center(class="w-4/6")
+    p.mb-4.text-center.font-bold.text-3xl Bin #[i #{binId}] Has Been Created
+    div.mb-10.grid.grid-cols-2.divide-x.divide-gray-100
+      .p-4.w-full.rounded-md
+        p.mt-3.mb-1.text-center HTTP requests made to this endpoint will be logged
+        input.mb-3.bg-green-50.border.border-gray.w-full.outline-none.text-gray-500.rounded-md.p-1.text-lg.text-center(value=`${binAddr}` disabled)
+      .p-4.w-full.rounded-md
+        p.mt-3.mb-1.text-center Visit this endpoint to review logged HTTP requests
+        input.mb-3.bg-green-50.border.border-gray.w-full.outline-none.text-gray-500.rounded-md.p-1.text-lg.text-center(value=`${viewAddr}` disabled)
+    p.text-center.font-bold.text-3xl Execute Requests With The Following Code
+    div.mt-4(class="w-4/6")
+      | #[b cURL]
+      pre.p-2.mt-2.border-gray-300.border-2.whitespace-normal.break-all.bg-gray-100
+        code
+          | curl -X POST -d "fizz=buzz" #{binAddr}
+    div.mt-4(class="w-4/6")
+      | #[b PowerShell]
+      pre.p-2.mt-2.border-gray-300.border-2.whitespace-pre-wrap.break-all.bg-gray-100
+        code
+          | powershell -NoLogo -Command "(New-Object System.Net.WebClient).DownloadFile('#{binAddr}', 'C:\Windows\Temp\ednze13v.txt')"
+    div.mt-4(class="w-4/6")
+      | #[b Python (with Requests)]
+      pre.p-2.mt-2.border-gray-300.border-2.whitespace-pre-wrap.break-all.bg-gray-100
+        code
+          | import requests, time
+          | r = requests.post('#{binAddr}', data={"ts":time.time()})
+          | print r.status_code
+          | print r.content
+    div.mt-4(class="w-4/6")
+      | #[b Node.js (with request)]
+      pre.p-2.mt-2.border-gray-300.border-2.whitespace-pre-wrap.break-all.bg-gray-100
+        code
+          | var request = require('request');
+          | var url ='#{binAddr}'
+          | request(url, function (error, response, body) {
+          |   if (!error) {
+          |     console.log(body);
+          |   }
+          | });
+    div.mt-4(class="w-4/6")
+      | #[b Ruby]
+      pre.p-2.mt-2.border-gray-300.border-2.whitespace-pre-wrap.break-all.bg-gray-100
+        code
+          | require 'open-uri'
+          | result = open('#{binAddr}')
+          | result.lines { |f| f.each_line {|line| p line} }
+    div.mt-4(class="w-4/6")
+      | #[b C# / .NET] 
+      pre.p-2.mt-2.border-gray-300.border-2.whitespace-pre-wrap.break-all.bg-gray-100
+        code
+          | using System;
+          | using System.Net.Http;
+          | using System.Threading.Tasks;
+          |
+          | namespace RequestBinExample
+          | {
+          |  class Program
+          |  {
+          |   static void Main(string[] args)
+          |   {
+          |    MakeRequest();
+          |   }
+          |
+          |   private static async Task MakeRequest()
+          |   {
+          |    var httpClient = new HttpClient();
+          |    var response = await httpClient.GetAsync(new Uri("#{binAddr}"));
+          |    var body = await response.Content.ReadAsStringAsync();
+          |    Console.WriteLine(body);
+          |  }
+          | }
+          |} 
+    div.mt-4(class="w-4/6")
+      | #[b Java]
+      pre.p-2.mt-2.border-gray-300.border-2.whitespace-pre-wrap.break-all.bg-gray-100
+        code
+          | import org.apache.commons.httpclient.*;
+          | import org.apache.commons.httpclient.methods.*;
+          | import org.apache.commons.httpclient.params.HttpMethodParams;
+          |
+          | import java.io.*;
+          |
+          | public class RequestBinTutorial {
+          |  public static void main(String[] args) {
+          |    HttpClient client = new HttpClient();
+          |    GetMethod method = new GetMethod("#{binAddr}");
+          |    try {
+          |      int statusCode = client.executeMethod(method);
+          |      byte[] responseBody = method.getResponseBody();
+          |      System.out.println(new String(responseBody));
+          |    } catch (Exception e) {
+          |      System.err.println("Fatal error: " + e.getMessage());
+          |      e.printStackTrace();
+          |    } finally {
+          |      method.releaseConnection();
+          |    }
+          |  }
+          |}
+    div.mt-4(class="w-4/6")
+      | #[b PHP]
+      pre.p-2.mt-2.border-gray-300.border-2.whitespace-pre-wrap.break-all.bg-gray-100
+        code
+          | &lt?php
+          |   $result = file_get_contents('#{binAddr}');
+          |   echo $result;
+          | ?/&gt

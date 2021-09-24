@@ -1,0 +1,27 @@
+extends nav
+
+block main
+  .grid.grid-cols-1.justify-items-center
+    .container.mx-1.bg-gray-400.h-96.rounded-md.flex.items-center
+      .text-gray-50.text-center(class='sm:ml-20 sm:text-left')
+        h1.text-5xl.font-bold
+          | Test Your 
+          br
+          |       Webhooks
+        p.text-lg.inline-block(class='sm:block') We create the bin. You direct the traffic.
+        a(href="/newbin") 
+          button.mt-8.px-4.py-2.text-lg.rounded(style="background-color: #214f98;") Create Bin URL
+    .container.grid.grid-cols-3.gap-4.mt-10
+      div
+        h3.text-lg.font-semibold.text-gray-500.mt-2 1. Generate a Bin
+        p.text.text-gray-400
+          | We provide you with a URL which is the endpoint for an ephemeral bin. The data of all HTTP requests made to the endpoint is logged.
+      div
+        h3.text-lg.font-semibold.text-gray-500.mt-2 2. Direct Traffic to the Bin
+        p.text.text-gray-400
+          | You register the provided bin URL with the webhook service you're using or designing.
+      div
+        h3.text-lg.font-semibold.text-gray-500.mt-2 3. Review the Traffic
+        p.text.text-gray-400
+          | We provide you with an additional URL at which you can view the data of all HTTP requests made to your endpoint.
+        
