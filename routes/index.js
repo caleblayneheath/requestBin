@@ -7,3 +7,6 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+/*
+curl -X POST http://localhost:3000/bin/test/ -H 'Content-Type: application/json' -d '{"login":"my_login","password":"my_password"}'
+*/

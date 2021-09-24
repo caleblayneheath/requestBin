@@ -1,6 +1,25 @@
 const express = require('express');
 const router = express.Router();
 
+/*
+curl -X POST http://localhost:3000/bin/test/ -H 'Content-Type: application/json' -d '{"login":"my_login","password":"my_password"}'
+*/
+
+router.all('/test', function(req, res) {
+  console.log("method", req.method)
+  // console.log("body", req.body)
+  console.log("headers", req.headers)
+  console.log(req.header('x-forwarded-for') || req.connection.remoteAddress);
+  // console.log(req.body) // for content:type json
+  // console.log(JSON.parse(req.body.payload)) // for content:type urlformencoded
+  // url => /test
+  // originalUrl => '/bin/test'
+  // baseUrl => /bin
+  // method
+  // body
+  res.render('index', { title: 'hello from test' });
+})
+
 // GET /bins/new => Create a bin
 router.get('/new', function(req, res, next) {
   // 1. generate a new 8 alphanumeric bin id until it's unique
