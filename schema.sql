@@ -5,14 +5,13 @@ CREATE TABLE bins (
   id serial PRIMARY KEY,
   url text NOT NULL UNIQUE,
   created_at timestamp NOT NULL DEFAULT current_timestamp,
-  quantity_requests integer DEFAULT 0 NOT NULL
 );
 
 CREATE TABLE request_data (
   id serial PRIMARY KEY,
   bin_id integer NOT NULL,   
-  header_content json,
-  body json,
+  header_content jsonb,
+  body jsonb,
   method text NOT NULL,
   received_at timestamp NOT NULL DEFAULT current_timestamp,
   sender_ip text NOT NULL,  
