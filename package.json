@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www"
+    "dev": "nodemon ./bin/www",
+    "tailwind:css": "postcss public/stylesheets/tailwind.css -o public/stylesheets/style.css"
   },
   "dependencies": {
+    "autoprefixer": "^10.3.5",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^10.0.0",
@@ -15,6 +17,9 @@
     "morgan": "~1.9.1",
     "nodemon": "^2.0.12",
     "pg": "^8.7.1",
-    "pug": "2.0.0-beta11"
+    "postcss": "^8.3.7",
+    "postcss-cli": "^9.0.0",
+    "pug": "^2.0.0-beta11",
+    "tailwindcss": "^2.2.15"
   }
 }
